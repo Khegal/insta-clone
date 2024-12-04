@@ -1,7 +1,46 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router = useRouter();
+
+  const [formValues, setFormValues] = useState({
+    credential: "",
+    fullName: "",
+    userName: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { credential, fullName, userName, password } = formValues;
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}/signup`, {
+        credential,
+        password,
+        fullName,
+        userName,
+      })
+      .then((res) => {
+        toast.success("Та амжилттай бүртгүүллээ!");
+        router.push("/");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.response.data.message);
+      });
+  };
+
   return (
     <div className="flex justify-center items-center w-full h-screen bg-white">
       <div className="flex flex-col w-[350px] p-6 border border-[#e5e7eb] bg-white">
@@ -19,57 +58,52 @@ const Signup = () => {
             }}
           ></div>
         </div>
+
         <div className="flex flex-col mb-4">
-          <form action="" className="flex flex-col">
-            <div className="mb-4">
-              <div className="relative">
-                <span className="absolute text-sm font-normal left-2 text-[#737373] top-1/2 -translate-y-1/2">
-                  Mobile number or Email
-                </span>
-                <input
-                  type="text"
-                  className="w-full pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
-                />
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="relative">
-                <span className="absolute text-sm font-normal left-2 text-[#737373] top-1/2 -translate-y-1/2">
-                  Full Name
-                </span>
-                <input
-                  type="text"
-                  className="w-full pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
-                />
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="relative">
-                <span className="absolute text-sm font-normal left-2 text-[#737373] top-1/2 -translate-y-1/2">
-                  Username
-                </span>
-                <input
-                  type="text"
-                  className="w-full pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
-                />
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="relative">
-                <span className="absolute text-sm font-normal left-2 text-[#737373] top-1/2 -translate-y-1/2">
-                  Password
-                </span>
-                <input
-                  type="password"
-                  className="w-full pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
-                />
-              </div>
-            </div>
-            <div className="mb-4">
-              <button className="bg-[#0095f6] w-full py-2 text-sm font-semibold text-white rounded-lg hover:bg-[#007ace] transition-all duration-300">
-                Sign up
-              </button>
-            </div>
+          <form onSubmit={handleSubmit} className="flex flex-col">
+            <input
+              name="credential"
+              type="text"
+              value={formValues.credential}
+              onChange={handleChange}
+              placeholder="Credential"
+              className="w-full mb-4 pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
+            />
+
+            <input
+              name="fullName"
+              type="text"
+              value={formValues.fullName}
+              onChange={handleChange}
+              placeholder="Full Name"
+              className="w-full mb-4 pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
+            />
+
+            <input
+              name="userName"
+              type="text"
+              value={formValues.userName}
+              onChange={handleChange}
+              placeholder="Username"
+              className="w-full mb-4 pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
+            />
+
+            <input
+              name="password"
+              type="password"
+              value={formValues.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="w-full mb-4 pb-[7px] pt-[9px] pl-2 h-9 bg-[#fafafa] focus:outline-none focus:border-[#0095f6] border border-[#e5e7eb] rounded"
+            />
+
+            <button
+              type="submit"
+              className="bg-[#0095f6] w-full py-2 text-sm font-semibold text-white rounded-lg hover:bg-[#007ace] transition-all duration-300"
+            >
+              Sign up
+            </button>
+
             <div className="my-4 flex items-center">
               <div className="border-t flex-grow border-[#e5e7eb]"></div>
               <div className="mx-2 text-sm font-semibold text-[#737373]">
@@ -77,12 +111,12 @@ const Signup = () => {
               </div>
               <div className="border-t flex-grow border-[#e5e7eb]"></div>
             </div>
-            <div className="mb-4 flex justify-center">
-              <button className="bg-none border-none font-semibold text-sm text-[#385185]">
-                Sign up with Facebook
-              </button>
-            </div>
+
+            <button className="mb-4 bg-none border-none font-semibold text-sm text-[#385185]">
+              Sign up with Facebook
+            </button>
           </form>
+
           <div className="text-center text-xs text-[#737373] mt-4">
             By signing up, you agree to our Terms, Privacy Policy, and Cookies
             Policy.
@@ -91,7 +125,7 @@ const Signup = () => {
 
         <div className="border-t py-4 flex justify-center">
           <span className="text-sm text-[#737373]">
-            Already have an account?
+            Already have an account?{" "}
             <Link href="/signin" className="text-[#0095f6] font-semibold">
               Log in
             </Link>
