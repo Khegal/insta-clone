@@ -2,8 +2,14 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import { redirect } from "next/navigation";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import { UserContext } from "@/contexts/userContext";
 
 const SignIn = () => {
+  const { isSignedIn, setIsSignedIn } = useContext(UserContext);
+
   const [formValues, setFormValues] = useState({
     credential: "",
     password: "",
@@ -27,15 +33,19 @@ const SignIn = () => {
         credential,
         password,
       })
-      .then((res) => {
-        alert(res.data.message); // Display success message
+      .then(() => {
+        toast.success("Та амжилттай signed in!");
+        setIsSignedIn(true);
+        localStorage.setItem("isSignedIn", "true");
       })
       .catch((err) => {
         alert(err.response?.data?.message || "An error occurred"); // Display error
         console.error("Sign-in error:", err);
       });
   };
-
+  if (isSignedIn) {
+    return redirect("/home");
+  }
   return (
     <div className="flex justify-center mx-auto mt-8 pb-8 w-full h-screen flex-col">
       <div className="flex flex-grow flex-col mt-3 w-[350px] justify-center">

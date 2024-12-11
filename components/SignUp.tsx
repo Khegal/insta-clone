@@ -1,12 +1,17 @@
 "use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/contexts/userContext";
+import { useContext } from "react";
+import { redirect } from "next/navigation";
 
 const Signup = () => {
   const router = useRouter();
+  const { isSignedIn, setIsSignedIn } = useContext(UserContext);
 
   const [formValues, setFormValues] = useState({
     credential: "",
@@ -14,6 +19,9 @@ const Signup = () => {
     userName: "",
     password: "",
   });
+  if (isSignedIn) {
+    return redirect("/home");
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,7 +39,7 @@ const Signup = () => {
         fullName,
         userName,
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Та амжилттай бүртгүүллээ!");
         router.push("/");
       })
