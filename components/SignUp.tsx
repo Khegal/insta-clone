@@ -20,7 +20,7 @@ const Signup = () => {
     password: "",
   });
   if (isSignedIn) {
-    return redirect("/home");
+    return redirect("/");
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

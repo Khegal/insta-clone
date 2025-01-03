@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { redirect } from "next/navigation";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 import { UserContext } from "@/contexts/userContext";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
-  const { isSignedIn, setIsSignedIn } = useContext(UserContext);
+  const router = useRouter();
+  const { setAccessToken } = useContext(UserContext);
 
   const [formValues, setFormValues] = useState({
     credential: "",
@@ -29,23 +30,20 @@ const SignIn = () => {
 
     // API request
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}/signin`, {
+      .post(`${process.env.NEXT_PUBLIC_API}/api/auth/signin`, {
         credential,
         password,
       })
-      .then(() => {
+      .then((res) => {
         toast.success("Та амжилттай signed in!");
-        setIsSignedIn(true);
-        localStorage.setItem("isSignedIn", "true");
+        setAccessToken(res.data.accessToken);
+        router.push("/");
       })
       .catch((err) => {
-        alert(err.response?.data?.message || "An error occurred"); // Display error
+        alert(err.response?.data?.message || "An error occurred");
         console.error("Sign-in error:", err);
       });
   };
-  if (isSignedIn) {
-    return redirect("/home");
-  }
   return (
     <div className="flex justify-center mx-auto mt-8 pb-8 w-full h-screen flex-col">
       <div className="flex flex-grow flex-col mt-3 w-[350px] justify-center">
@@ -82,7 +80,6 @@ const SignIn = () => {
                   />
                 </div>
 
-                {/* Password Input */}
                 <div className="mx-10 mb-1.5 border relative flex items-center border-[#e5e7eb] rounded">
                   <input
                     name="password"

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { UserContextProvider } from "@/contexts/userContext";
+import { Footer } from "./common/Footer";
+import { Header } from "./common/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +33,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <UserContextProvider>{children}</UserContextProvider>
+        <UserContextProvider>
+          <Header />
+          {children}
+          <Footer />
+        </UserContextProvider>
         <ToastContainer position="bottom-right" />
       </body>
     </html>

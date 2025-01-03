@@ -1,25 +1,54 @@
 "use client";
-
-import SignIn from "@/components/SignIn";
 import { redirect } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/contexts/userContext";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
 
-const SignInPage = () => {
-  const { isSignedIn, setIsSignedIn } = useContext(UserContext);
+export default function Home() {
+  const { user } = useContext(UserContext);
 
-  if (isSignedIn) {
-    return redirect("/home");
+  const [posts, setPosts] = useState<
+    {
+      _id: string;
+      mediaUrl: string;
+      description: string;
+      user: {
+        username: string;
+        fullname: string;
+      };
+    }[]
+  >([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3333/api/posts").then((res) => {
+      setPosts(res.data);
+    });
+  }, []);
+
+  if (!user) {
+    return redirect("/signin");
   }
-  return (
-    <div className=" flex justify-center items-center h-screen flex-grow">
-      <div className="mt-8 mx-auto pb-8 max-w-md">
-        <div className="mt-3">
-          <SignIn></SignIn>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default SignInPage;
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post._id}>
+          <Image
+            width={400}
+            objectFit="contain"
+            height={400}
+            src={post.mediaUrl}
+            alt=""
+          />
+          {post.description}
+          <br />
+          <Link className="text-blue-500" href={`/${post.user.username}`}>
+            @{post.user.username}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
