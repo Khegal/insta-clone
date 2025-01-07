@@ -2,6 +2,7 @@ import { CiImageOn } from "react-icons/ci";
 import { CgSpinner } from "react-icons/cg";
 import { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 interface ImageUploaderProps {
   setMediaUrl: (url: string) => void;
@@ -55,9 +56,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         </div>
       )}
       {response && (
-        <img
+        <Image
           src={response.fileUrl}
           alt="Uploaded preview"
+          width="400"
+          height="400"
           className="object-cover w-full h-full"
         />
       )}
