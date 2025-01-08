@@ -3,6 +3,7 @@ export interface Post {
   _id: string;
   mediaUrl: string;
   description: string;
+  likeCount: string;
   user: {
     profileUrl: string;
     username: string;

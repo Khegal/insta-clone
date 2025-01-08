@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[430px] mx-auto w-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[430px] mx-auto w-full relative`}
       >
         <UserContextProvider>{children}</UserContextProvider>
         <ToastContainer position="bottom-right" />
