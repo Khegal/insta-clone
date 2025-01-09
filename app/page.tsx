@@ -1,7 +1,7 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/contexts/userContext";
 import axios from "axios";
 import Image from "next/image";
@@ -13,48 +13,45 @@ export default function Home() {
   const { user, accessToken } = useContext(UserContext);
   const [posts, setPosts] = useState<Post[]>([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3333/api/posts")
-      .then((res) => setPosts(res.data))
-      .catch((err) => {
-        console.error("Error fetching posts:", err);
-        setPosts([]);
-      });
-  }, []);
+  const fetchPosts = async () => {
+    try {
+      const res = await axios.get("http://localhost:3333/api/posts");
+      setPosts(res.data);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      setPosts([]);
+    }
+  };
 
-  if (!user) {
-    redirect("/signin");
-    return null;
-  }
-
-  const toggleLike = async (postId: string, hasLiked: boolean) => {
+  const toggleLike = async (postId: string) => {
     try {
       await axios.post(
         `http://localhost:3333/api/posts/${postId}/like`,
-        { postId },
+        {},
         {
           headers: {
             Authorization: "Bearer " + accessToken,
           },
         }
       );
-
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post._id === postId
-            ? {
-                ...post,
-                likeCount: post.likeCount + (hasLiked ? -1 : 1),
-                hasLiked: !hasLiked,
-              }
-            : post
-        )
-      );
+      fetchPosts(); // Refresh posts after toggling like
     } catch (err) {
       console.error("Error toggling like:", err);
     }
   };
+
+  const isLiked = (postLikes: any[], currentUserId: string) => {
+    return postLikes.some((like) => like.user.toString() === currentUserId);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  if (!user) {
+    redirect("/signin");
+    return null;
+  }
 
   return (
     <MainLayout>
@@ -98,11 +95,13 @@ export default function Home() {
                   <div className="flex">
                     <button
                       className="py-2 pr-2"
-                      onClick={() => toggleLike(post._id, post.hasLiked)}
+                      onClick={() => toggleLike(post._id)}
                     >
                       <svg
                         aria-label="Like"
-                        fill={post.hasLiked ? "red" : "currentColor"}
+                        fill={
+                          isLiked(post.likes, user._id) ? "red" : "currentColor"
+                        }
                         height="24"
                         role="img"
                         viewBox="0 0 24 24"

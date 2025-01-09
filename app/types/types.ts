@@ -4,6 +4,7 @@ export interface Post {
   mediaUrl: string;
   description: string;
   likeCount: string;
+  likes: string[];
   user: {
     profileUrl: string;
     username: string;
