@@ -1,14 +1,24 @@
-// types.ts
+export interface PostComment {
+  _id: string;
+  comment: string;
+  user: User;
+  post: string;
+}
+
+export interface PostLike {
+  _id: string;
+  user: User;
+  post: string;
+}
+
 export interface Post {
   _id: string;
   mediaUrl: string;
   description: string;
-  likeCount: string;
-  likes: string[];
-  user: {
-    profileUrl: string;
-    username: string;
-  };
+  likeCount: number; // Change this to number for proper counting
+  likes: PostLike[];
+  comments: PostComment[]; // Change this to 'comments' (plural) for consistency
+  user: User;
 }
 
 export interface User {
@@ -17,5 +27,5 @@ export interface User {
   username: string;
   fullname: string;
   bio: string;
-  posts?: Post[];
+  posts?: Post[]; // Optional if the user may not have posts
 }
