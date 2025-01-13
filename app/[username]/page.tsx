@@ -14,8 +14,7 @@ const Page = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3333/api/auth/" + username).then((res) => {
-      console.log(username);
+    axios.get("http://localhost:3333/api/user/" + username).then((res) => {
       setUser(res.data);
     });
   }, [username]);
@@ -42,8 +41,7 @@ const Page = () => {
 
   return (
     <MainLayout>
-      {" "}
-      <div className="px-4">
+      <div className="p-4">
         <div className="flex gap-4">
           <div>
             <Image
@@ -67,19 +65,22 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3">
-          {posts.map((post) => (
-            <div key={post._id}>
-              <Image
-                src={post.mediaUrl}
-                alt={post.description}
-                width={300}
-                height={300}
-                objectFit="cover"
-              />
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className="flex gap-[5px] flex-wrap">
+        {posts.map((post) => (
+          <div
+            key={post._id}
+            className="w-[140px] h-[140px] overflow-hidden relative"
+          >
+            <Image
+              src={post.mediaUrl}
+              alt={post.description}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="140px, 140px, 140px"
+            />
+          </div>
+        ))}
       </div>
     </MainLayout>
   );

@@ -26,7 +26,7 @@ export const UserContextProvider = ({
     localStorage.setItem("accessToken", accessToken);
     if (accessToken !== "") {
       axios
-        .get(`${process.env.NEXT_PUBLIC_API}/api/auth/me`, {
+        .get(`${process.env.NEXT_PUBLIC_API}/api/user/me`, {
           headers: {
             Authorization: "Bearer " + accessToken,
           },

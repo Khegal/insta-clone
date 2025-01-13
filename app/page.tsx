@@ -10,7 +10,7 @@ import { Post, PostLike } from "./types/types";
 import { MainLayout } from "@/common/MainLayout";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+const Home = () => {
   const { user, accessToken } = useContext(UserContext);
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -90,8 +90,7 @@ export default function Home() {
                 width={430}
                 height={400}
                 src={post.mediaUrl}
-                alt=""
-                className=""
+                alt={post.description}
               />
               <div className="px-4">
                 <div className="flex justify-between my-1">
@@ -212,4 +211,5 @@ export default function Home() {
       </ul>
     </MainLayout>
   );
-}
+};
+export default Home;

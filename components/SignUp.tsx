@@ -47,7 +47,7 @@ const Signup = () => {
       });
   };
 
-  if (accessToken) {
+  if (accessToken !== "") {
     router.push("/"); // If already signed in, redirect to home page
     return null;
   }

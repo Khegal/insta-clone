@@ -7,7 +7,7 @@ import { User } from "@/app/types/types";
 import Image from "next/image";
 import { UserContext } from "@/contexts/userContext";
 
-export default function LikedByPage() {
+const LikedByPage = () => {
   const { postId } = useParams();
   const { accessToken } = useContext(UserContext);
   const [likedBy, setLikedBy] = useState<User[]>([]);
@@ -65,4 +65,6 @@ export default function LikedByPage() {
       )}
     </div>
   );
-}
+};
+
+export default LikedByPage;

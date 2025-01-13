@@ -7,7 +7,7 @@ import { Post, PostComment } from "@/app/types/types";
 import Image from "next/image";
 import { UserContext } from "@/contexts/userContext";
 
-export default function PostDetailPage() {
+const PostDetailPage = () => {
   const { postId } = useParams(); // Get the dynamic postId from the URL
   const { accessToken } = useContext(UserContext); // Access token from context
   const [post, setPost] = useState<Post | null>(null); // State to hold the post data
@@ -133,7 +133,7 @@ export default function PostDetailPage() {
             )}
           </div>
 
-          <div className="mt-4 fixed bottom-0 left-0 right-0 z-10 bg-white p-4">
+          <div className="mt-4 absolute bottom-0 left-0 right-0 z-10 bg-white p-4">
             <textarea
               className="w-full p-2 border rounded-md"
               placeholder="Add a comment..."
@@ -151,4 +151,6 @@ export default function PostDetailPage() {
       )}
     </div>
   );
-}
+};
+
+export default PostDetailPage;
