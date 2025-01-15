@@ -14,7 +14,7 @@ export const Footer = () => {
     }
   };
   return (
-    <footer className="sticky bottom-0 left-0 z-10 w-full p-4 border-t bg-background">
+    <footer className="fixed bottom-0 left-0 z-10 w-full p-4 border-t bg-background">
       <div className="flex justify-between  max-w-[430px] mx-auto w-full">
         <button onClick={handleSignout}>
           <CgLogOut size={20} />

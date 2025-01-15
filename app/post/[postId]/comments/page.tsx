@@ -87,17 +87,13 @@ const PostDetailPage = () => {
             <div className="mt-4 flex items-center space-x-4">
               <div className="flex items-center">
                 <Image
-                  src={
-                    post.user?.profileUrl
-                      ? `/${post.user.profileUrl}`
-                      : "/noimage.png"
-                  }
-                  alt={post.user?.username || "User profile image"}
-                  width={50}
-                  height={50}
-                  className="rounded-full"
+                  width={32}
+                  height={32}
+                  src={post.user?.profileUrl || "/noimage.png"}
+                  alt=""
+                  className="mr-2 object-cover w-8 h-8 rounded-full"
                 />
-                <span className="ml-2">{post.user?.username}</span>
+                <span className="font-semibold">{post.user?.username}</span>
               </div>
             </div>
           </div>
@@ -107,19 +103,18 @@ const PostDetailPage = () => {
             {comments.length > 0 ? (
               <div className="mt-4 space-y-4">
                 {comments.map((comment) => (
-                  <div key={comment._id} className="flex items-start space-x-4">
+                  <div
+                    key={comment._id}
+                    className="flex items-center space-x-4"
+                  >
                     <Image
-                      src={
-                        comment.user?.profileUrl
-                          ? `/${comment.user.profileUrl}`
-                          : "/noimage.png"
-                      }
-                      alt={comment.user?.username || "Commenter profile image"}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
+                      width={32}
+                      height={32}
+                      src={comment.user?.profileUrl || "/noimage.png"}
+                      alt=""
+                      className="object-cover w-8 h-8 rounded-full"
                     />
-                    <div className="flex flex-col">
+                    <div className="flex gap-3">
                       <div className="font-semibold">
                         {comment.user?.username}
                       </div>

@@ -63,20 +63,24 @@ const Home = () => {
           <li key={post._id}>
             <div className="mx-auto">
               <div className="px-4 py-[14px] flex items-center">
-                <Image
-                  width={32}
-                  height={32}
-                  src={
-                    post.user.profileUrl
-                      ? `/${post.user.profileUrl}`
-                      : "/noimage.png"
-                  }
+                {/* <Image
+                  src={post.user?.profileUrl || "/noimage.png"}
                   alt={
                     post.user.profileUrl
                       ? "User profile picture"
                       : "No image available"
                   }
-                  className="mr-4 rounded-full"
+                  height={32}
+                  width={32}
+                  className="mr-4 rounded-full h-8 w-8"
+                  style={{ objectFit: "cover" }}
+                /> */}
+                <Image
+                  width={32}
+                  height={32}
+                  src={post.user?.profileUrl || "/noimage.png"}
+                  alt=""
+                  className="mr-4 object-cover w-8 h-8 rounded-full"
                 />
                 <Link
                   className="text-black text-sm leading-[18px] font-semibold"
@@ -91,6 +95,7 @@ const Home = () => {
                 height={400}
                 src={post.mediaUrl}
                 alt={post.description}
+                style={{ height: "auto" }}
               />
               <div className="px-4">
                 <div className="flex justify-between my-1">

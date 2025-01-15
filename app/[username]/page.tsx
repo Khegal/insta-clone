@@ -42,28 +42,33 @@ const Page = () => {
   return (
     <MainLayout>
       <div className="p-4">
-        <div className="flex gap-4">
-          <div>
-            <Image
-              alt=""
-              src={user.profileUrl || "/noimage.png"}
-              width={100}
-              height={100}
-              className="border w-[100px] h-[100px] rounded-full object-cover"
-            />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{user.username}</h1>
-            {isOwner && (
-              <div>
-                <button>Edit profile</button>
-              </div>
-            )}
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-4">
             <div>
-              {user.fullname} <br />
-              {user.bio}
+              <Image
+                alt=""
+                src={user.profileUrl || "/noimage.png"}
+                width={100}
+                height={100}
+                className="border w-[100px] h-[100px] rounded-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <h1 className="text-2xl font-bold">{user.username}</h1>
+              {isOwner && (
+                <div>
+                  <button className="rounded-lg px-4 py-1 bg-[#00000010]">
+                    Edit profile
+                  </button>
+                </div>
+              )}
             </div>
           </div>
+          <span>
+            <span className="font-semibold">{user.fullname}</span>
+            <br />
+            {user.bio}
+          </span>
         </div>
       </div>
       <div className="flex gap-[5px] flex-wrap">

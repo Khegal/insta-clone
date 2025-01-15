@@ -4,7 +4,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="pt-[57px] pb-[53px]">{children}</main>
       <Footer />
     </>
   );

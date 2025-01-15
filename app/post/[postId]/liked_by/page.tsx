@@ -45,15 +45,11 @@ const LikedByPage = () => {
             >
               <div className="mr-4">
                 <Image
-                  src={user.profileUrl ? `/${user.profileUrl}` : "/noimage.png"}
-                  alt={
-                    user.profileUrl
-                      ? "User profile picture"
-                      : "No image available"
-                  }
-                  width={50}
-                  height={50}
-                  className="rounded-full"
+                  width={32}
+                  height={32}
+                  src={user?.profileUrl || "/noimage.png"}
+                  alt=""
+                  className="object-cover w-8 h-8 rounded-full"
                 />
               </div>
               {user.username}
