@@ -21,11 +21,31 @@ export interface Post {
   user: User;
 }
 
+// Interface for a single Follower
+export interface Follower {
+  user: {
+    _id: string; // User's unique identifier
+    username: string; // Username of the follower
+    id: string; // Same as _id, can be removed if unnecessary
+  };
+  follow: string; // The ID of the user being followed
+  createdAt: string; // Date when the follow relationship was created
+  updatedAt: string; // Date when the follow relationship was updated
+  __v: number; // Version key (used internally by MongoDB)
+}
+
+// Interface for User with followers and following
 export interface User {
   _id: string;
-  profileUrl: string;
-  username: string;
+  email: string;
   fullname: string;
-  bio: string;
-  posts?: Post[]; // Optional if the user may not have posts
+  username: string;
+  profileUrl: string;
+  followers: Follower[]; // Array of followers (each follower is an object)
+  following: Follower[]; // Array of people the user is following
+  followersCount: number; // Total followers count
+  followingCount: number; // Total following count
+  postCount: number; // Number of posts by the user
+  bio: string; // Bio of the user
+  updatedAt: string; // Date of the last update
 }
